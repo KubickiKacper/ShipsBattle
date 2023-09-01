@@ -10,7 +10,8 @@ public:
     void start_game()
     {
         p1->getBoard();
-        p2->getBoard();
+        p1->place_ships();
+        //p2->getBoard();
     }
     
     Game() {
