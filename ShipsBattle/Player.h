@@ -21,13 +21,14 @@ public:
         this->player_id = player_id;
         this->shots = 0;
         this->hits = 0;
-        board = new Board;
+        this->board = new Board;
     }
 
     void place_ships()
     {
+        
         carier = new Carier;
-        carier->place_ship();
+        carier->place_ship(this->board->getBoard());
         
     }
 

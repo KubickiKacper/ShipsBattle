@@ -7,6 +7,16 @@ private:
 	int board[10][10];
 
 public:
+    void setBoard(const int newBoard[10][10])
+    {
+        std::memcpy(board, newBoard, sizeof(board));
+    }
+
+    const int (*getBoard())[10]
+    {
+        return this->board;
+    }
+
 	Board() {
         for (int i = 0; i < 10; i++) {
             for (int j = 0; j < 10; j++) {

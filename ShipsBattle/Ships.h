@@ -2,6 +2,7 @@
 #include <conio.h>
 #include <string>
 
+
 class Ship {
 protected:
 	int length;
@@ -10,6 +11,7 @@ protected:
 	bool isAlive;
 	
 public:
+
 	void setPosition(std::vector<std::pair<int, int>> position)
 	{
 		this->position = position;
@@ -20,9 +22,37 @@ public:
 		return this->position;
 	}
 
-	int place_ship()
+	void show_ship_position(std::vector<std::pair<int, int>> init_position, const int board[10][10])
 	{
-		int x = 0; //00 01 02 03 04
+		int board_copy[10][10];
+
+		for (int i = 0; i < 10; i++) {
+			for (int j = 0; j < 10; j++) {
+				board_copy[i][j] = board[i][j];
+			}
+		}
+
+		for (const auto& pair : init_position)
+		{
+			board_copy[pair.first][pair.second] = 1;
+		}
+
+		for (int i = 0; i < 10; i++) {
+			std::cout << "\n" << i + 1;
+
+			if (i < 9) std::cout << "  ";
+			else std::cout << " ";
+
+			for (int j = 0; j < 10; j++) {
+				std::cout << board_copy[i][j];
+			}
+		}
+	}
+
+	int place_ship(const int board[10][10])
+	{
+		
+		int x = 0;
 		int y = 0;
 
 		std::vector<std::pair<int, int>> init_position;
@@ -39,6 +69,7 @@ public:
 
 		char c;
 		bool cant_move;
+		bool horizontal = true;
 		while (true)
 		{
 			c = _getch();
@@ -66,7 +97,10 @@ public:
 				for (const auto& pair : init_position) {
 					std::cout << "(" << pair.first << ", " << pair.second << ")" << "\n";
 				}
+
+				show_ship_position(init_position, board);
 				break;
+
 			}
 
 			case 'a': case 'A':
@@ -90,6 +124,8 @@ public:
 				for (const auto& pair : init_position) {
 					std::cout << "(" << pair.first << ", " << pair.second << ")" << "\n";
 				}
+
+				show_ship_position(init_position, board);
 				break;
 			}
 
@@ -114,6 +150,8 @@ public:
 				for (const auto& pair : init_position) {
 					std::cout << "(" << pair.first << ", " << pair.second << ")" << "\n";
 				}
+
+				show_ship_position(init_position, board);
 				break;
 			}
 
@@ -140,8 +178,36 @@ public:
 				for (const auto& pair : init_position) {
 					std::cout << "(" << pair.first << ", " << pair.second << ")" << "\n";
 				}
+
+				show_ship_position(init_position, board);
 				break;
 			}
+			case 'r': case 'R':
+			{
+				std::cout << "Rotation";
+				int counter = 0;
+				if (horizontal)
+				{
+					horizontal = !horizontal;
+					for (auto& pair : init_position) {
+						pair.first = 0;
+						pair.second = counter;
+						counter++;
+					}
+					break;
+				}
+				else
+				{
+					horizontal = !horizontal;
+					for (auto& pair : init_position) {
+						pair.first = counter;
+						pair.second = 0;
+						counter++;
+					}
+					break;
+				}
+			}
+			
 			case '\r':
 			{
 				return 1;
