@@ -6,6 +6,12 @@ class Player
 {
 private:
     Board* board;
+    Carier* carier;
+    Battleship* battleship;
+    Cruiser* cruiser;
+    Submarine* submarine;
+    Destroyer* destroyer;
+
 	int shots;
 	int hits;
     int player_id;
@@ -16,6 +22,13 @@ public:
         this->shots = 0;
         this->hits = 0;
         board = new Board;
+    }
+
+    void place_ships()
+    {
+        carier = new Carier;
+        carier->place_ship();
+        
     }
 
     void getBoard() {
