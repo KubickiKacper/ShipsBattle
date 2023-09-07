@@ -49,11 +49,11 @@ public:
 		}
 	}
 
-	int place_ship(const int board[10][10])
+	std::vector<std::pair<int, int>> place_ship(const int board[10][10])
 	{
-		
 		int x = 0;
 		int y = 0;
+		bool canPlace;
 
 		std::vector<std::pair<int, int>> init_position;
 		
@@ -63,9 +63,7 @@ public:
 
 		}
 
-		for (const auto& pair : init_position) {
-			std::cout << "(" << pair.first << ", " << pair.second << ")" << "\n";
-		}
+		show_ship_position(init_position, board);
 
 		char c;
 		bool cant_move;
@@ -94,10 +92,6 @@ public:
 					pair.first -= 1;
 				}
 
-				for (const auto& pair : init_position) {
-					std::cout << "(" << pair.first << ", " << pair.second << ")" << "\n";
-				}
-
 				show_ship_position(init_position, board);
 				break;
 
@@ -121,10 +115,6 @@ public:
 					pair.second -= 1;
 				}
 
-				for (const auto& pair : init_position) {
-					std::cout << "(" << pair.first << ", " << pair.second << ")" << "\n";
-				}
-
 				show_ship_position(init_position, board);
 				break;
 			}
@@ -145,10 +135,6 @@ public:
 				if (cant_move) break;
 				for (auto& pair : init_position) {
 					pair.first += 1;
-				}
-
-				for (const auto& pair : init_position) {
-					std::cout << "(" << pair.first << ", " << pair.second << ")" << "\n";
 				}
 
 				show_ship_position(init_position, board);
@@ -175,10 +161,6 @@ public:
 					pair.second += 1;
 				}
 
-				for (const auto& pair : init_position) {
-					std::cout << "(" << pair.first << ", " << pair.second << ")" << "\n";
-				}
-
 				show_ship_position(init_position, board);
 				break;
 			}
@@ -186,31 +168,37 @@ public:
 			{
 				std::cout << "Rotation";
 				int counter = 0;
+				horizontal = !horizontal;
+
 				if (horizontal)
 				{
-					horizontal = !horizontal;
 					for (auto& pair : init_position) {
 						pair.first = 0;
 						pair.second = counter;
 						counter++;
 					}
-					break;
 				}
 				else
 				{
-					horizontal = !horizontal;
 					for (auto& pair : init_position) {
 						pair.first = counter;
 						pair.second = 0;
 						counter++;
 					}
-					break;
 				}
+
+				break;
 			}
 			
 			case '\r':
 			{
-				return 1;
+				canPlace = true;
+				for (auto p : init_position)
+				{
+					if (board[p.first][p.second] != 0) { canPlace = false; }
+				}
+
+				if (canPlace) { return init_position; }
 			}
 
 			}

@@ -6,11 +6,7 @@ class Player
 {
 private:
     Board* board;
-    Carier* carier;
-    Battleship* battleship;
-    Cruiser* cruiser;
-    Submarine* submarine;
-    Destroyer* destroyer;
+    std::vector<std::shared_ptr<Ship>> ShipsVector;
 
 	int shots;
 	int hits;
@@ -22,14 +18,23 @@ public:
         this->shots = 0;
         this->hits = 0;
         this->board = new Board;
+        this->ShipsVector.push_back(std::make_shared<Carier>());
+        this->ShipsVector.push_back(std::make_shared<Battleship>());
+        this->ShipsVector.push_back(std::make_shared<Cruiser>());
+        this->ShipsVector.push_back(std::make_shared<Submarine>());
+        this->ShipsVector.push_back(std::make_shared<Destroyer>());
     }
 
     void place_ships()
     {
+        std::vector<std::pair<int, int>> ship_positon;
         
-        carier = new Carier;
-        carier->place_ship(this->board->getBoard());
-        
+        for (const auto& ship : this->ShipsVector)
+        {
+            ship_positon= ship->place_ship(this->board->getBoard());
+            this->board->updateBoard(ship_positon);
+            getBoard();
+        }
     }
 
     void getBoard() {

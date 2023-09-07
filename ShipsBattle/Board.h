@@ -48,4 +48,12 @@ public:
 
         std::cout << "\n";
     }
+
+    void updateBoard(std::vector<std::pair<int, int>> ship_position)
+    {
+        for (auto p : ship_position)
+        {
+            this->board[p.first][p.second] = 1;
+        }
+    }
 };
