@@ -5,14 +5,16 @@
 class Player
 {
 private:
-    Board* board;
+    //Board* board;
+	Board* enemy_board;
     std::vector<std::shared_ptr<Ship>> ShipsVector;
-
 	int shots;
 	int hits;
     int player_id;
 
 public:
+	Board* board;
+	
     Player(int player_id) {
         this->player_id = player_id;
         this->shots = 0;
@@ -31,13 +33,93 @@ public:
         
         for (const auto& ship : this->ShipsVector)
         {
-            ship_positon= ship->place_ship(this->board->getBoard());
+            ship_positon = ship->place_ship(this->board->getBoard());
             this->board->updateBoard(ship_positon);
-            getBoard();
+			this->board->show_board(this->player_id);
         }
     }
 
-    void getBoard() {
-        board->show_board(this->player_id);
-    }
+	void create_enemy_board(const int board[10][10])
+	{
+		this->enemy_board = new Board(board);
+	}
+
+	int(*shot())[10]
+    {
+		int x = 0;
+		int y = 0;
+		char c;
+
+		while (true)
+		{
+			c = _getch();
+			std::cout << c;
+			
+			switch (c) {
+			case 'w': case 'W':
+			{
+				if (y <= 0) {
+					break;
+				}
+				y--;
+				break;
+			}
+
+			case 'a': case 'A':
+			{
+				std::cout << "A";
+				if (x <= 0) {
+					break;
+				}
+				x--;
+				break;
+			}
+
+			case 's': case 'S':
+			{
+				std::cout << "S";
+				if (y >= 9) {
+					break;
+				}
+				y++;
+				break;
+			}
+
+
+			case 'd': case 'D':
+			{
+				std::cout << "D";
+				if (x >= 9) {
+
+					break;
+				}
+				x++;
+				break;
+			}
+
+			case '\r':
+			{
+				int(*enemy_board_copy)[10] = this->enemy_board->getBoard();
+
+				if (enemy_board_copy[y][x] == 1)
+				{
+					std::cout << "\nHit\n";
+					enemy_board_copy[y][x] = 2;
+				}
+				else if (enemy_board_copy[y][x] == 0)
+				{
+					std::cout << "\Miss\n";
+					enemy_board_copy[y][x] = 3;
+				}
+
+				this->enemy_board->setBoard(enemy_board_copy);
+
+				return enemy_board_copy;
+				break;
+			}
+			}
+
+			this->enemy_board->show_board_to_shot(x, y);
+		}
+	}
 };

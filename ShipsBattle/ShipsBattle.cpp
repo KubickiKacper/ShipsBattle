@@ -9,9 +9,11 @@ private:
 public:
     void start_game()
     {
-        p1->getBoard();
         p1->place_ships();
-        //p2->getBoard();
+        p2->create_enemy_board(p1->board->getBoard());
+        p1->board->setBoard(p2->shot());
+        p1->board->setBoard(p2->shot());
+        p1->board->setBoard(p2->shot());
     }
     
     Game() {

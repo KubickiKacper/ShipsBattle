@@ -51,8 +51,6 @@ public:
 
 	std::vector<std::pair<int, int>> place_ship(const int board[10][10])
 	{
-		int x = 0;
-		int y = 0;
 		bool canPlace;
 
 		std::vector<std::pair<int, int>> init_position;
@@ -92,7 +90,6 @@ public:
 					pair.first -= 1;
 				}
 
-				show_ship_position(init_position, board);
 				break;
 
 			}
@@ -115,7 +112,6 @@ public:
 					pair.second -= 1;
 				}
 
-				show_ship_position(init_position, board);
 				break;
 			}
 
@@ -137,7 +133,6 @@ public:
 					pair.first += 1;
 				}
 
-				show_ship_position(init_position, board);
 				break;
 			}
 
@@ -161,7 +156,6 @@ public:
 					pair.second += 1;
 				}
 
-				show_ship_position(init_position, board);
 				break;
 			}
 			case 'r': case 'R':
@@ -198,11 +192,15 @@ public:
 					if (board[p.first][p.second] != 0) { canPlace = false; }
 				}
 
-				if (canPlace) { return init_position; }
+				if (canPlace) { 
+					this->setPosition(init_position);
+					return init_position; 
+				}
 			}
 
 			}
 
+			show_ship_position(init_position, board);
 
 		}
 
